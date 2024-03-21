@@ -1,3 +1,5 @@
+'use client'
+
 // Importing necessary components from their respective paths
 import { AccountAvatar } from "@/components/page/account-avatar"
 import { ReceiveTab } from "@/components/page/receive-tab"

@@ -14,19 +14,6 @@ import { MdContactless } from "react-icons/md";
 import { SuccessDialog } from "./success-dialog";
 import { RequestDialog } from "./request-dialog";
 
-// function scanNFC() {
-//     // Scan for NFC tag
-//     // If NFC tag is found
-//     // Return the NFC tag data
-
-//     const ndef = new NDEFReader();
-//     await ndef.scan();
-
-//     ndef.addEventListener("reading", ({ message, serialNumber }: { message: any, serialNumber: any }) => {
-        
-//     });
-// }
-
 // ReceiveTab component
 export function ReceiveTab() {
 
@@ -45,9 +32,9 @@ export function ReceiveTab() {
             <Card className="flex flex-col gap-3 p-3 h-full">
                 <div className="flex flex-row gap-3 items-center">
                     <h1 className="text-6xl font-semibold">£</h1>
-                    <Input 
-                        placeholder="0.00" 
-                        className="text-6xl font-semibold h-30 justify-center outline-none border-none" 
+                    <Input
+                        placeholder="0.00"
+                        className="text-6xl font-semibold h-30 justify-center outline-none border-none"
                         onChange={(e) => setAmount(parseFloat(e.target.value))}
                     />
                 </div>
@@ -55,25 +42,43 @@ export function ReceiveTab() {
 
             <div className="flex flex-row gap-3 w-full">
                 <Button variant="outline" className="border-red-700"> Cancel</Button>
-            
+
                 <Dialog>
                     <DialogTrigger asChild>
-                        <Button 
+                        <Button
                             className="w-full"
                             onClick={() => {
-                                setTimeout(() => {
+                                setTimeout(async () => {
                                     // Wait 5 seconds before displaying success message
                                     console.log(`Requesting £${amount}`);
                                     setSuccess(true);
+
+                                    // Check if the browser supports Web NFC
+                                    if ("NDEFReader" in window) {
+                                        const ndef = new NDEFReader();
+                                        try {
+                                            await ndef.scan();
+                                            ndef.addEventListener("reading", (event: any) => {
+                                                const { message, serialNumber } = event;
+                                                console.log(`> Serial Number: ${serialNumber}`);
+                                                console.log(`> Records: (${message.records.length})`);
+                                            });
+                                        } catch (error) {
+                                            console.error(`Error! Scan failed to start: ${error}.`);
+                                        }
+                                    } else {
+                                        console.log("Web NFC is not supported on this browser.");
+                                    }
+
                                 }, 5000);
                             }}
-                        > 
+                        >
                             Request
                         </Button>
                     </DialogTrigger>
-                    {success ? 
+                    {success ?
                         <SuccessDialog amount={amount} />
-                    : <RequestDialog amount={amount} />
+                        : <RequestDialog amount={amount} />
                     }
                 </Dialog>
             </div>
