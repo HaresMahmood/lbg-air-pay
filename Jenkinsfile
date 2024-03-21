@@ -110,21 +110,17 @@ pipeline {
                             echo $lastResult
 
                             # if lastResult is not empty, run build config
-                            if [ -n "$lastResult" ]; then
-                                oc start-build ${BACKEND_IMAGE_NAME} --from-dir=. --follow
-                            else
                                 # manually creating build config
-                                oc new-build --binary --strategy=docker --name=${BACKEND_IMAGE_NAME} --to=${BACKEND_IMAGE_NAME}:${BUILD_NUMBER}
+                                oc new-build --binary --strategy=docker --name=${BACKEND_IMAGE_NAME} --to=${BACKEND_IMAGE_NAME}:${BUILD_NUMBER} || true
 
                                 # manually starting build
-                                oc start-build ${BACKEND_IMAGE_NAME} --from-dir=. --follow
+                                oc start-build ${BACKEND_IMAGE_NAME} --from-dir=. --follow || true
                                 
                                 # manually creating deployment, pods, replication controllers, service etc
                                 oc new-app -i ${BACKEND_IMAGE_NAME}:${BUILD_NUMBER}
                                 
                                 # creating https route
                                 oc create route edge --service ${BACKEND_IMAGE_NAME}
-                            fi
                         '''
                     }
                 }
