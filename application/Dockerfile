@@ -1,4 +1,4 @@
-FROM --platform=linux/arm64/v8 docker.io/node:20-alpine AS build
+FROM docker.io/node:20-alpine AS build
 
 WORKDIR /src/my-app
 
