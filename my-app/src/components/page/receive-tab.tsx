@@ -19,6 +19,7 @@ export function ReceiveTab() {
 
     const [amount, setAmount] = useState(0);
     const [success, setSuccess] = useState(false);
+    const [serialNumber, setSerialNumber] = useState("");
 
     return (
         <div className="pt-3 w-full h-full flex flex-col items-center gap-5 max-h-full">
@@ -51,7 +52,6 @@ export function ReceiveTab() {
                                 setTimeout(async () => {
                                     // Wait 5 seconds before displaying success message
                                     console.log(`Requesting £${amount}`);
-                                    setSuccess(true);
 
                                     // Check if the browser supports Web NFC
                                     if ("NDEFReader" in window) {
@@ -62,6 +62,8 @@ export function ReceiveTab() {
                                                 const { message, serialNumber } = event;
                                                 console.log(`> Serial Number: ${serialNumber}`);
                                                 console.log(`> Records: (${message.records.length})`);
+
+                                                setSerialNumber(serialNumber);
                                             });
                                         } catch (error) {
                                             console.error(`Error! Scan failed to start: ${error}.`);
@@ -70,6 +72,8 @@ export function ReceiveTab() {
                                         console.log("Web NFC is not supported on this browser.");
                                     }
 
+                                    setSuccess(true);
+
                                 }, 5000);
                             }}
                         >
@@ -77,7 +81,7 @@ export function ReceiveTab() {
                         </Button>
                     </DialogTrigger>
                     {success ?
-                        <SuccessDialog amount={amount} />
+                        <SuccessDialog amount={serialNumber} />
                         : <RequestDialog amount={amount} />
                     }
                 </Dialog>

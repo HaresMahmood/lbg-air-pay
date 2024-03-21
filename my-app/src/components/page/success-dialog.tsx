@@ -2,7 +2,7 @@ import { MdContactless, MdTaskAlt } from "react-icons/md";
 import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 
 type RequestDialogProps = {
-    amount: number
+    amount: string
 }
 
 export function SuccessDialog({ amount }: RequestDialogProps) {
