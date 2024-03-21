@@ -1,4 +1,4 @@
-FROM docker.io/node:20-alpine AS build
+FROM registry.access.redhat.com/ubi9/nodejs-20 AS build
 
 WORKDIR /src/my-app
 
