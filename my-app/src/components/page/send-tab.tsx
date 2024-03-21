@@ -1,8 +1,10 @@
+// Importing necessary components from their respective paths
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Card, CardDescription, CardTitle } from "../ui/card";
 import { DropdownMenuSeparator } from "../ui/dropdown-menu";
 import { AccountAvatar } from "./account-avatar";
 
+// SendTab component
 export function SendTab() {
     return (
         <div className="pt-3 w-full flex flex-col gap-5 max-h-full">

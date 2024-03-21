@@ -1,3 +1,6 @@
+'use client'
+
+// Importing necessary components from their respective paths
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
@@ -7,10 +10,28 @@ import { DropdownMenuSeparator } from "../ui/dropdown-menu";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { AccountAvatar } from "./account-avatar";
+import { MdContactless } from "react-icons/md";
+import { SuccessDialog } from "./success-dialog";
+import { RequestDialog } from "./request-dialog";
 
+// function scanNFC() {
+//     // Scan for NFC tag
+//     // If NFC tag is found
+//     // Return the NFC tag data
+
+//     const ndef = new NDEFReader();
+//     await ndef.scan();
+
+//     ndef.addEventListener("reading", ({ message, serialNumber }: { message: any, serialNumber: any }) => {
+        
+//     });
+// }
+
+// ReceiveTab component
 export function ReceiveTab() {
 
     const [amount, setAmount] = useState(0);
+    const [success, setSuccess] = useState(false);
 
     return (
         <div className="pt-3 w-full h-full flex flex-col items-center gap-5 max-h-full">
@@ -24,7 +45,11 @@ export function ReceiveTab() {
             <Card className="flex flex-col gap-3 p-3 h-full">
                 <div className="flex flex-row gap-3 items-center">
                     <h1 className="text-6xl font-semibold">£</h1>
-                    <Input placeholder="0.00" className="text-6xl font-semibold h-30 justify-center outline-none border-none" />
+                    <Input 
+                        placeholder="0.00" 
+                        className="text-6xl font-semibold h-30 justify-center outline-none border-none" 
+                        onChange={(e) => setAmount(parseFloat(e.target.value))}
+                    />
                 </div>
             </Card>
 
@@ -33,37 +58,23 @@ export function ReceiveTab() {
             
                 <Dialog>
                     <DialogTrigger asChild>
-                        <Button className="w-full"> Request</Button>
+                        <Button 
+                            className="w-full"
+                            onClick={() => {
+                                setTimeout(() => {
+                                    // Wait 5 seconds before displaying success message
+                                    console.log(`Requesting £${amount}`);
+                                    setSuccess(true);
+                                }, 5000);
+                            }}
+                        > 
+                            Request
+                        </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
-                        <DialogHeader>
-                            <DialogTitle>Requested</DialogTitle>
-                            <DialogDescription>
-                                Make changes to your profile here. Click save when you're done.
-                            </DialogDescription>
-                        </DialogHeader>
-                        <div className="grid gap-4 py-4">
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                
-                                <Input
-                                    id="name"
-                                    defaultValue="Pedro Duarte"
-                                    className="col-span-3"
-                                />
-                            </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                
-                                <Input
-                                    id="username"
-                                    defaultValue="@peduarte"
-                                    className="col-span-3"
-                                />
-                            </div>
-                        </div>
-                        <DialogFooter>
-                            <Button type="submit">Save changes</Button>
-                        </DialogFooter>
-                    </DialogContent>
+                    {success ? 
+                        <SuccessDialog amount={amount} />
+                    : <RequestDialog amount={amount} />
+                    }
                 </Dialog>
             </div>
         </div>

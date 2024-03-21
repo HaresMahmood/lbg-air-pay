@@ -16,8 +16,10 @@ import { AccountDebitCard } from "@/components/page/account-debit-card"
 
 export default function Home() {
     let accounts = [
-    {type: "Classic Account", balance: 1234.56, accountNumber: "12345678", sortCode: "12-34-56"},
-    {type: "Gold Account", balance: 12345.67, accountNumber: "12345679", sortCode: "12-34-57"},
+    {type: "Classic Account", balance: 1234.56, accountNumber: "12345678", sortCode: "12-34-56"
+},
+    {type: "Gold Account", balance: 12345.67, accountNumber: "12345679", sortCode: "12-34-57"
+  },
   ]
   return (
     <div className="w-full flex flex-col gap-3 p-7">
@@ -37,7 +39,7 @@ export default function Home() {
           {accounts.map((account, index) => (
           <div key={index} className="pl-1 w-fit">
             <div className="p-1">
-              <AccountDebitCard type={account.type} balance={account.balance} accountNumber={account.accountNumber} sortCode={account.sortCode} />
+              <AccountDebitCard  type={account.type} balance={account.balance} accountNumber={account.accountNumber} sortCode={account.sortCode} color={account.color} />
             </div>
           </div>
         ))}
@@ -56,13 +58,32 @@ export default function Home() {
       <div className="font-semibold"> Recent Activities </div>
       <div className="font-light text-xs">Monday  21/08/23</div>
       <Card className=" w-full flex flex-col">
-      <CardHeader>
-        <div>
+      <CardHeader className="flex-row items-baseline justify-between">
+       
           
           <div>Reboot 2024 Prize fund</div>
-                              <CardDescription>+£300.00</CardDescription>
- </div>
-        
+          <div className="text-green-700"> +£300.00</div>
+
+      </CardHeader>     
+    </Card>
+
+    <Card className=" w-full flex flex-col">
+      <CardHeader className="flex-row items-baseline justify-between">
+       
+          
+          <div>Tax</div>
+          <div className="text-red-700"> -£344.47</div>
+
+      </CardHeader>     
+    </Card>
+
+    <Card className=" w-full flex flex-col">
+      <CardHeader className="flex-row items-baseline justify-between">
+       
+          
+          <div>Crypto Gains</div>
+          <div className="text-red-700"> -£30,464.00</div>
+
       </CardHeader>     
     </Card>
     </div>

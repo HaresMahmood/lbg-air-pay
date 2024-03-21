@@ -20,8 +20,9 @@ type AccountDebitCardProps = {
 export function AccountDebitCard({
      type: type, balance, accountNumber, sortCode
 }: AccountDebitCardProps) {  
+  
     return (
-    <Card className="aspect-[1.586] w-[300px] flex flex-col">
+    <Card className="aspect-[1.586] w-[300px] flex flex-col" >
       <CardHeader>
         <CardDescription> {type} </CardDescription>
         <CardTitle className="text-3xl"> £{balance} </CardTitle>
