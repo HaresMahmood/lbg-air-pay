@@ -1,3 +1,4 @@
+// Importing necessary components from their respective paths
 import { AccountAvatar } from "@/components/page/account-avatar"
 import { ReceiveTab } from "@/components/page/receive-tab"
 import { SendTab } from "@/components/page/send-tab"
@@ -9,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { MdArrowBack, MdArrowDropDown } from "react-icons/md"
 import Link from "next/link"
 
+// Main component
 export default function AirPay() {
     return (
         <div className="w-full h-screen flex flex-col gap-7 p-7">
