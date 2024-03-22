@@ -1,31 +1,21 @@
-# Fetching node v20 image
-FROM --platform=linux/amd64 node:21-alpine
+FROM registry.access.redhat.com/ubi9/nodejs-20 AS build
 
-RUN npm config set cache /home/node/.npm --global
-# Setting up the work directory
-WORKDIR /usr/src/app
+WORKDIR /src/my-app
 
-USER node
+USER root
 
-# Installing dependencies
-COPY --chown=node:node package*.json ./
-RUN npm config set cache /home/node/.npm && npm install
+RUN chown -R 1001:0 /src/my-app && chmod -R ug+rwx /src/my-app && rpm-file-permissions
 
-# Copying all the files in our project
-COPY --chown=node:node . .
+USER 1001
 
-ENV DB_USER=###DB_USER###
-ENV DB_PASS=###DB_PASS###
-ENV DB_NAME=###DB_NAME###
-ENV DB_HOST=###DB_HOST###
+COPY package.* .
 
-# Clean up npm cache files
-RUN npm cache clean --force
+RUN npm install
 
-# Exposing server port
-EXPOSE 4000
+COPY . .
 
-# Starting our application
-CMD [ "npm", "start" ]
+EXPOSE 3000
 
+RUN echo ###API_URL### > .env
 
+CMD npm run dev
